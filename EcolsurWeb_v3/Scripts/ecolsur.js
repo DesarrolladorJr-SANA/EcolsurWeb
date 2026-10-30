@@ -19,11 +19,9 @@
     const SV = [
         ['Residuos peligrosos', 'Industriales, líquidos y sólidos', 'h3', 'Recolección, transporte, acopio y envío a disposición final con unidades especializadas, de forma segura, eficiente y conforme a la normativa vigente.', ['Recolección', 'Transporte', 'Acopio', 'Disposición final']],
         ['Manejo especial y sólidos', 'Recolección industrial', 'h4', 'Recolección especializada a la industria con cajas secas, pipas y góndolas para cada tipo de cliente y residuo.', ['Cajas secas', 'Pipas', 'Góndolas']],
-        ['RPBI', 'Residuos biológico-infecciosos', 'h2', 'Recolección, transporte, acopio y disposición final de RPBI. Colocamos contenedores en hospitales y vendemos contenedores RPBI y soluciones desinfectantes.', ['Hospitales', 'Clínicas', 'Contenedores']],
         ['Aceite usado', 'Recolección con pipa', 'h5', 'Recolección y manejo responsable de aceite usado para industria, estaciones de servicio y talleres.', ['Pipas', 'Estaciones de servicio', 'Industria']],
         ['Tratamiento de aguas', 'PTAR y aguas oleosas', 'ptar', 'Tratamiento de aguas oleosas, arranque, estabilización y mantenimiento de plantas de tratamiento de aguas residuales, y limpiezas ecológicas.', ['Aguas oleosas', 'Mantenimiento PTAR', 'Trabajos especiales']],
-        ['Consultoría ambiental', 'Trámites y cumplimiento', 'h1', 'Estudios y diagnósticos ambientales, licencias, COA, permisos SEMARNAT, trámites PROFEPA, planes de manejo, capacitación y auditorías.', ['COA', 'SEMARNAT', 'PROFEPA', 'Planes de manejo', 'Auditorías']],
-        ['Reciclaje y acopio', 'Servicios Ambientales Urbanos', 'plant', 'Centro de acopio autorizado en Yucatán, trituración de residuos para combustibles alternos y destrucciones fiscales seguras y confidenciales. Recibimos:', ['PET', 'Aluminio', 'HDPE', 'Cartón y papel', 'Vidrio', 'Chatarra', 'Electrónicos', 'Aceite usado']]];
+        ['Consultoría ambiental', 'Trámites y cumplimiento', 'h1', 'Estudios y diagnósticos ambientales, licencias, COA, permisos SEMARNAT, trámites PROFEPA, planes de manejo, capacitación y auditorías.', ['COA', 'SEMARNAT', 'PROFEPA', 'Planes de manejo', 'Auditorías']]];
     const PN = $('#pns');
     SV.forEach((s, i) => { const d = document.createElement('div'); d.className = 'pn'; d.tabIndex = 0; d.setAttribute('role', 'button'); d.style.backgroundImage = `linear-gradient(transparent 25%,rgba(7,31,74,.88)),url(${B}${s[2]}.jpg)`; d.innerHTML = `<span>0${i + 1}</span><h3>${s[0]}</h3><div class="b"><small>${s[1]}</small><p>${s[3]}</p><ul>${s[4].map(x => '<li>' + x + '</li>').join('')}</ul></div>`; d.onclick = d.onfocus = () => $$('.pn', PN).forEach(p => p.classList.toggle('on', p == d)); PN.append(d) });
     PN.firstChild.classList.add('on');
@@ -319,4 +317,49 @@
     const rv = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); rv.unobserve(e.target) } }), { threshold: .12 }); $$('.rv').forEach((e, i) => { e.style.transitionDelay = (i % 3) * 80 + 'ms'; rv.observe(e) });
     // formulario
     $('#f').onsubmit = e => { e.preventDefault(); const d = new FormData(e.target); location.href = `mailto:contacto@ecolsur.com.mx?subject=${encodeURIComponent('Solicitud: ' + d.get('s'))}&body=${encodeURIComponent(`Nombre: ${d.get('n')}\nEmpresa: ${d.get('e')}\nServicio: ${d.get('s')}\n\n${d.get('m')}`)}`; $('#ok').style.display = 'block' };
+
+
+    document.querySelectorAll('[data-carousel]').forEach(carousel => {
+        const track = carousel.querySelector('.cert-carousel-track');
+        const images = track.querySelectorAll('img');
+        const prev = carousel.querySelector('.cert-prev');
+        const next = carousel.querySelector('.cert-next');
+        const dotsContainer = carousel.querySelector('.cert-dots');
+
+        let current = 0;
+
+        images.forEach((_, index) => {
+            const dot = document.createElement('button');
+
+            dot.type = 'button';
+            dot.setAttribute('aria-label', `Ir a fotografía ${index + 1}`);
+
+            dot.addEventListener('click', () => {
+                current = index;
+                updateCarousel();
+            });
+
+            dotsContainer.appendChild(dot);
+        });
+
+        const updateCarousel = () => {
+            track.style.transform = `translateX(-${current * 100}%)`;
+
+            dotsContainer.querySelectorAll('button').forEach((dot, index) => {
+                dot.classList.toggle('active', index === current);
+            });
+        };
+
+        prev.addEventListener('click', () => {
+            current = (current - 1 + images.length) % images.length;
+            updateCarousel();
+        });
+
+        next.addEventListener('click', () => {
+            current = (current + 1) % images.length;
+            updateCarousel();
+        });
+
+        updateCarousel();
+    });
 })();

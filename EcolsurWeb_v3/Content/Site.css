@@ -1649,9 +1649,96 @@ textarea {
     border-radius: 14px;
 }
 
+/* ============================================================
+   21. Carrusel Certificados
+   ============================================================ */
+.cert-carousel {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    background: #EAF4FC;
+}
+
+.cert-carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform .5s ease;
+}
+
+    .cert-carousel-track img {
+        min-width: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.cert-carousel button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(7, 31, 74, .8);
+    color: white;
+    cursor: pointer;
+    font-size: 22px;
+}
+
+.cert-prev {
+    left: 10px;
+}
+
+.cert-next {
+    right: 10px;
+}
+
+.cert-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+    .cert-dots button {
+        position: static;
+        transform: none;
+        width: 8px;
+        height: 8px;
+        padding: 0;
+        background: rgba(255,255,255,.6);
+    }
+
+        .cert-dots button.active {
+            background: #3C98E4;
+        }
+
+#infraestructura .cert-carousel {
+    height: clamp(340px, 38vw, 450px);
+}
+
+#infraestructura .cert-carousel {
+    background: #EAF4FC;
+}
+
+#infraestructura .cert-carousel-track img {
+    width: 100%;
+    height: 100%;
+}
+
+@media (max-width: 600px) {
+    #infraestructura .cert-carousel {
+        height: 340px;
+    }
+}
 
 /* ============================================================
-   21. FOOTER Y REDES SOCIALES
+   22. FOOTER Y REDES SOCIALES
    ============================================================ */
 
 /* Footer general */
@@ -1731,28 +1818,55 @@ footer {
 
 /* Redes sociales */
 
+.footer-social {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+    .footer-social > b {
+        font-size: 15px;
+        font-weight: 700;
+        color: #fff;
+    }
+
 .social-links {
     display: flex;
+    align-items: center;
     gap: 12px;
 }
 
     .social-links a {
-        display: grid;
-        place-items: center;
-        width: 44px;
-        height: 44px;
-        border: 1px solid rgba(255, 255, 255, .2);
-        border-radius: 12px;
-        color: #fff;
-        font-size: 23px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: rgba(255, 255, 255, .85);
         text-decoration: none;
-        transition: background .2s, transform .2s;
+        font-size: 13px;
+        transition: color .25s ease, transform .25s ease;
     }
 
-        .social-links a:hover {
-            background: #0b3a85;
-            transform: translateY(-3px);
+        .social-links a i {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, .12);
+            font-size: 20px;
+            color: #fff;
+            transition: background .25s ease;
         }
+
+        .social-links a:hover {
+            color: #7CBDEA;
+            transform: translateY(-2px);
+        }
+
+            .social-links a:hover i {
+                background: #1877F2;
+            }
 
 
 /* Parte inferior del footer */
